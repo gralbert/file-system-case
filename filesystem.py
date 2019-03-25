@@ -5,12 +5,18 @@ Grigorev A., Batenev P., Zhambaeva D.
 
 import rulocal as ru
 import os
-
+import os.path
 
 def accept_command():
     """ Asks a command number. """
     # Эксепшоны прописать.
-    command = input(ru.CHOOSE+'\n')
+    command = int(input(ru.CHOOSE+'\n'))
+    if command < 7:
+        print('Команда введена  корректно, продолжаем работать')
+
+    else:
+        print('Команда введена не корректно, проверьте ввод команды и попробуйте еще раз:')
+        command = int(input(ru.CHOOSE + '\n'))
     return command
 
 
@@ -26,7 +32,9 @@ def list_dir():
 
 def move_up():
     """ Go to parent directory. """
-    # TODO
+    my_path = 'C:WINDOWSsystem32'
+    catalog = os.path.basename(os.path.dirname(my_path))
+    return catalog
 
 
 def move_down():
@@ -35,8 +43,18 @@ def move_down():
 
 
 def count_files(path):
-    """ """
-    # TODO
+
+    count = 0
+    if not os.exists(path):
+        return
+    files = os.listdir(path)
+    print(files)
+    for file in files:
+        file_path = os.join(path, file)
+        if os.isfile(file_path):
+            count += 1
+        else:
+            count_files(file_path)
 
 
 def count_bytes(path):
