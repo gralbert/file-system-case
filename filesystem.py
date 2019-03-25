@@ -37,9 +37,15 @@ def move_up():
     return catalog
 
 
-def move_down():
+def move_down(current_dir):
     """ Go to input directory. """
-    # TODO
+    try:
+        dir = os.getcwd()
+        new_dir = dir + '\\' + current_dir
+        os.chdir(new_dir)
+        return os.getcwd()
+    except FileNotFoundError:
+        return print(ru.INPUT_ERROR)
 
 
 def count_files(path):
@@ -63,8 +69,15 @@ def count_bytes(path):
 
 
 def find_files(target, path):
-    """ """
-    # TODO
+    lst = []
+    for root, dirs, files in os.walk(path):
+        for item in files:
+            i = os.path.join(root, item)
+            if target in i:
+                lst.append(i)
+    if len(lst) == 0:
+        return print(ru.INPUT_ERROR)
+    return lst
 
 
 def main():
