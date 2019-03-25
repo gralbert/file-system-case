@@ -10,7 +10,9 @@ import os.path
 direct = os.getcwd()
 name = os.listdir(direct)
 file = []
-
+global files2
+files2 = []
+_bytes = 0
 
 def accept_command():
     """ Asks a command number. """
@@ -51,9 +53,9 @@ def list_dir():
 
 def move_up():
     """ Go to parent directory. """
-    my_path = 'C:WINDOWSsystem32'
-    catalog = os.path.basename(os.path.dirname(my_path))
-    return catalog
+    my_path = os.getcwd()
+    catalog = my_path.rfind('\\')
+    return os.chdir(my_path[:catalog])
 
 
 def move_down():
@@ -70,32 +72,52 @@ def move_down():
 
 def count_files_input():
     """ Addition to count_files. """
-    return count_files(input(ru.COUNT_INPUT1))
+    count_files(os.getcwd())
+    return len(files2)
 
 
 def count_files(path):
-
+    """ Number of files. """
     count = 0
     if not os.path.exists(path):
         return
     files = os.listdir(path)
-    print(files)
     for file in files:
         file_path = os.path.join(path, file)
+        files2.append(files)
         if os.path.isfile(file_path):
             count += 1
+
         else:
             count_files(file_path)
 
 
+
 def count_bytes_input():
     """ Addition to count_bytes. """
-    return count_bytes(input(ru.COUNT_INPUT2))
+    count_bytes(os.getcwd(), 0)
+    return _bytes
 
 
-def count_bytes(path):
-    """ """
-    # TODO
+def count_bytes(path, byt):
+    """ Number of bytes. """
+    global _bytes
+    count = 0
+    if not os.path.exists(path):
+        return byt
+    files = os.listdir(path)
+    for file in files:
+        file_path = os.path.join(path, file)
+        files2.append(files)
+        byt += os.path.getsize(os.path.isfile(file_path))
+        try:
+            _bytes += os.path.getsize(str(os.getcwd())+file)
+        except:
+            pass
+        if os.path.isfile(file_path):
+            count += 1
+        else:
+            count_bytes(file_path, byt)
 
 
 def find_files_input():
